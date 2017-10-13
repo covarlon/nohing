@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+</head>
+<body>
+    <label id="con">Hello APP</label>
+	<div id='sys-info'></div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+apiready=function(){
+      // 融云模块
+      // var rong = api.require('rongCloud2');
+      //聊天界面模块
+        var UIChatTools = api.require('UIChatTools');
+        // 聊天界面
+    UIChatTools.open({
+      chatBox: {
+          placeholder: '聊天内容',
+          autoFocuse: true,
+          maxRows: 6
+      },
+      styles: {
+          bgColor: '#D1D1D1',
+          margin: 10,
+      },
+      tools: {
+          h: 35,
+          iconSize: 30,
+          recorder: {
+              normal: 'fs://UIChatTolls/recorder.png',
+              selected: 'fs://UIChatTolls/recorder1.png'
+          },
+          image: {
+              normal: 'fs://UIChatTolls/image.png',
+              selected: 'fs://UIChatTolls/image1.png'
+          },
+          video: {
+              normal: 'fs://UIChatTolls/video.png',
+              selected: 'fs://UIChatTolls/video1.png'
+          },
+          face: {
+              normal: 'fs://UIChatTolls/face2.png',
+              selected: 'fs://UIChatTolls/face1.png'
+          },
+          append: {
+              normal: 'fs://UIChatTolls/append.png',
+              selected: 'fs://UIChatTolls/append1.png'
+          }
+      },
+      // 表情
+      emotions:['widget://image/chatPage/emoticons/basic','widget://image/chatPage/emoticons/append1','widget://image/chatPage/emoticons/append2']
+  }, function(ret) {
+      if (ret) {
+          if (ret.eventType === 'send') {
+              // 发送消息
+              sendMsg(ret.msg);
+          }
+      }
+  };
+);
+  // 附加按钮
+  // UIChatTools.setAppendButton({
+  //     styles: {
+  //         row: 2,
+  //         column: 4,
+  //         iconSize: 50,
+  //         titleSize: 13,
+  //         titleColor: '#f00'
+  //     },
+  //     buttons: [
+  //         {
+  //             normal: 'widget://image/chatPage/album2.png',
+  //             highlight: 'widget://image/chatPage/album2.png',
+  //             title: '电话'
+  //         },{
+  //             normal: 'widget://image/chatPage/album2.png',
+  //             highlight: 'widget://image/chatPage/album2.png',
+  //             title: '收藏'
+  //         },{
+  //             normal: 'widget://image/chatPage/album2.png',
+  //             highlight: 'widget://image/chatPage/album2.png',
+  //             title: '发红包'
+  //         }
+  //     ]
+  // }, function(ret) {
+  //     api.alert({msg:'点击了第'+ret.index+'个按钮'});
+  // });
+  // 监听功能按钮
+  // UIChatTools.toolsListener(function(ret) {
+  //     if (ret.eventType == 'video') {
+  //         api.alert({
+  //             title: 'title',
+  //             msg: 'video',
+  //         }, function(ret, err) {
+  //             if (ret) {
+  //                 alert(JSON.stringify(ret));
+  //             } else {
+  //                 alert(JSON.stringify(err));
+  //             }
+  //         });
+  //     }
+  // });
+  // 接入融云
+  // rongyun();
+  // }
+  // 接入融云
+// function rongyun () {
+//
+//     rong.init(function(ret, err) {
+//         if (ret.status == 'error')
+//             api.toast({ msg: err.code });
+//     });
+//     // 监听接收消息
+//     receiveMsg();
+//     rong.connect(
+//         {
+//             // 用户1
+//             // token: '用户1token'
+//             // 用户2
+//             token: '用户2token'
+//         },function(ret, err) {
+//             if (ret.status == 'success') api.toast({ msg: ret.result.userId });
+//         });
+//
+// }
+// 监听接收消息
+// function receiveMsg() {
+//    rong.setOnReceiveMessageListener(function(ret, err) {
+//       // 由于聊天框界面和聊天内容不是一个页面所以要使用事件监听的方式通知聊天内容页面，传递参数
+//       api.sendEvent({
+//           name: 'receiveMsg',
+//           extra: {
+//               msg: ret.result.message.content.text
+//           }
+//       });
+//     })
+// }
+// function sendMsg(msg) {
+//   var sendMsg;
+//   rong.sendTextMessage({
+//       conversationType: 'PRIVATE',
+//       targetId: 'testUser1',
+//       text: msg,
+//       extra: ''
+//   }, function(ret, err) {
+//       if (ret.status == 'prepare') {
+//         // 获取发送的消息内容
+//         sendMsg = ret.result.message.content.text;
+//       }
+//
+//       else if (ret.status == 'success') {
+//           // 广播发送消息事件
+//           api.sendEvent({
+//               name: 'sendMsg',
+//               extra: {
+//                   msg: sendMsg
+//               }
+//           });
+//       }
+//       else if (ret.status == 'error') {
+//           api.alert({
+//               title: 'title',
+//               msg: err.code,
+//           }, function(ret, err) {
+//               if (ret) {
+//                   alert(JSON.stringify(ret));
+//               } else {
+//                   alert(JSON.stringify(err));
+//               }
+//           });
+//       }
+//   });
+// }
+// api.addEventListener({
+//     name: 'sendMsg'
+// }, function(ret, err) {
+//     // 发送消息后, 添加消息内容到页面
+//         $api.append($api.dom('.main'),'<div class="oneself clearfix"><img class="fr" src="../../image/tx_2.jpg"><p class="fr"> ' + ret.value.msg + ' </p></div>');
+// });
+// api.addEventListener({
+//     name: 'receiveMsg'
+// }, function(ret, err) {
+//     // 收到消息后, 添加消息内容到页面
+//     $api.append($api.dom('.main'),'<div class="other clearfix"><img class="fl" src="../../image/tx_2.jpg"><p class="fl">' + ret.value.msg + '</p></div>');
+// });
+}
+</script>
+</html>

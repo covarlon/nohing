@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>AUI快速完成布局</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+	</head>
+	<body style="background: #E0E0E0">
+		<header class="aui-bar aui-bar-nav" id='header' style="background:#3C3C3C ">
+			<div class="aui-title">
+				微信
+			</div>
+			<a class="aui-pull-right aui-btn headerf"> <span class="aui-iconfont aui-icon-plus" ></span> </a>
+		</header>
+		<div id="main" class="flex-con"></div>
+		<footer class="aui-bar aui-bar-tab" id="footer">
+			<div class="aui-bar-tab-item aui-active" tapmode>
+				<i class="aui-iconfont aui-icon-wechat"></i>
+				<div class="aui-bar-tab-label">
+					聊天
+				</div>
+			</div>
+			<div class="aui-bar-tab-item" tapmode>
+				<i class="aui-iconfont aui-icon-more"></i>
+				<div class="aui-bar-tab-label">
+					通讯录
+				</div>
+			</div>
+			<div class="aui-bar-tab-item" tapmode>
+				<div class="aui-badge">
+					99
+				</div>
+				<i class="aui-iconfont aui-icon-paper"></i>
+				<div class="aui-bar-tab-label">
+					发现
+				</div>
+			</div>
+			<div class="aui-bar-tab-item" tapmode>
+				<div class="aui-dot"></div>
+				<i class="aui-iconfont aui-icon-my"></i>
+				<div class="aui-bar-tab-label">
+					我
+				</div>
+			</div>
+		</footer>
+	</body>
+	<script type="text/javascript" src="../script/api.js" ></script>
+	<script type="text/javascript" src="../script/aui-tab.js" ></script>
+	<script type="text/javascript">
+	var url='';
+		apiready = function() {
+			api.parseTapmode();
+			$api.fixStatusBar($api.dom('header'));
+			api.setStatusBarStyle({
+				style : 'light',
+				color : '#000'
+			});
+//			var load = document.getElementById("footer");
+//			$api.one(load, 'click', function() {
+				api.openFrame({
+					name : "test",
+					url : 'wechat.html',
+					rect : {
+						x : 0,
+						y : $api.dom('header').offsetHeight,
+						w : api.winWidth,
+						h : api.frameHeight - $api.dom('footer').offsetHeight - $api.dom('header').offsetHeight,
+					},
+					pageParam : {
+						name : 'test'
+					}
+				});
+//			}, false);
+//			load.click();
+		}
+		var tab = new auiTab({
+			element : document.getElementById("footer"),
+			index : 1,
+			repeatClick : false
+		}, function(ret) {
+			if (ret) {
+				switch(ret.index) {
+					case 1:
+						url='wechat.html';
+						break;
+					case 2:
+						url='lxr.html';
+						break;
+					case 3:
+						url='pyq.html';
+						break;
+					case 4:
+						url='grzx.html';
+						break;
+				}
+				api.openFrame({
+					name : "test",
+					url : url,
+					rect : {
+						x : 0,
+						y : $api.dom('header').offsetHeight,
+						w : api.winWidth,
+						h : api.frameHeight - $api.dom('footer').offsetHeight - $api.dom('header').offsetHeight,
+					},
+					pageParam : {
+						name : 'test'
+					}
+				});
+			}
+		});
+	</script>
+</html>
